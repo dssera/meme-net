@@ -1,6 +1,9 @@
 from django.urls import path
 from django.http import HttpResponse
 
+from . import views
+
 urlpatterns = [
-    path('', lambda r: HttpResponse("blog page")),
+    path('', views.index, name='memes'),
+
 ]
