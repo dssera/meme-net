@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-'''
-title
-body
-pictureS 
-likes
-'''
+
 
 class TimeStampedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,7 +13,8 @@ class TimeStampedModel(models.Model):
 class Post(TimeStampedModel):
     author = models.ForeignKey(User,
                                on_delete=models.SET_NULL,
-                               null=True)
+                               null=True,
+                               related_name='posts')
     title = models.CharField(max_length=50,
                              blank=True)
     body = models.TextField(max_length=200, 
@@ -33,16 +29,17 @@ class Post(TimeStampedModel):
         ordering = ['-created_at']
     
     def __str__(self) -> str:
-        return self.author + ': ' + self.title
+        return f"{self.author.username if self.author else 'Anonymous'}: {self.title}"
     
 
 class Image(models.Model):
     author = models.ForeignKey(User,
                                on_delete=models.CASCADE)
     image = models.ImageField(upload_to='imgs')
-    post = models.ForeignKey(to=Post, 
+    post = models.ForeignKey(Post, 
                              on_delete=models.CASCADE,
-                             null=False)
+                             null=False,
+                             related_name="images")
     
     def __str__(self) -> str:
         return self.image.name
@@ -51,12 +48,13 @@ class Image(models.Model):
 class Comment(TimeStampedModel):
     author = models.ForeignKey(User,
                                on_delete=models.SET_NULL,
-                               null=True)
+                               null=True,
+                               related_name='comments')
     body = models.TextField(max_length=100)
 
     class Meta:
         ordering = ['-created_at']
-        
+
     def __str__(self) -> str:
         return self.body[:20]
 
