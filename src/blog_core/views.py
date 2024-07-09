@@ -1,15 +1,25 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.http import HttpResponse
 
 from .forms import RegisterForm, LoginForm
-
+from .models import Post, Image, Comment
 
 def index(request):
-    return HttpResponse('main blog page')
+    if request.method == 'GET':
+        posts = Post.objects.all()
+        return render(request, 'blog_core/index.html', context= {'posts': posts})
+
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    images = post.images.all()
+    comments = post.comments.all()
+    return render(request, 'blog_core/post_detail.html', {'post': post, 
+                                                          'images': images, 
+                                                          'comments': comments})
 
 def account(request):
     return HttpResponse(f"hi, {request.user.username}");

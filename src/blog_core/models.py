@@ -20,7 +20,8 @@ class Post(TimeStampedModel):
     body = models.TextField(max_length=200, 
                             blank=True)
     likes = models.ManyToManyField(User, 
-                                   related_name='post_like')
+                                   related_name='post_like',
+                                   blank=True)
     
     def get_likes(self):
         return self.likes.count()
@@ -51,6 +52,10 @@ class Comment(TimeStampedModel):
                                null=True,
                                related_name='comments')
     body = models.TextField(max_length=100)
+    post = models.ForeignKey(Post, 
+                             on_delete=models.CASCADE,
+                             null=False,
+                             related_name="comments")
 
     class Meta:
         ordering = ['-created_at']

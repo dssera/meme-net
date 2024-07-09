@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <div class="posts">
+        {%for post in posts%}
+            <h5>{{post.title}}</h5>
+            <p>{{post.body}}</p>
+            <div class="images">
+                {%for img in post.images.all%}
+                <!-- в контекст ты не даешь посты для конерктного поста, поэтому нужно post.images.all -->
+                    <p>{{img.image}}</p>
+                {%endfor%}
+            </div>
+            <div class="likes">
+                <p>likes: {{post.get_likes}}</p>
+            </div>
+            <hr>
+        {%endfor%}
+    </div>
+{%endblock%}

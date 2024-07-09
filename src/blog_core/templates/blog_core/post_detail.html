@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <div class="post-info">
+        <h5>{{post.title}}</h5>
+        <p>{{post.body}}</p>
+        <div class="images">
+            {%for img in images%}
+                <p>{{img.image}}</p>
+            {%endfor%}
+            <div class="likes">
+                <p>likes: {{post.get_likes}}</p>
+            </div>
+            <div class="comments">
+                {% for c in comments %}
+                    <p><i>{{c.author.username}}</i></p>
+                    <p>{{c.body}}</p>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+{%endblock%}
