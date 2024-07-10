@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<div class="account">
+    <p>Hi, {{request.user.username}}. This is your account.</p>
+    <a href="{% url 'logout' %}">Log out</a>
+</div>
+{%endblock%}

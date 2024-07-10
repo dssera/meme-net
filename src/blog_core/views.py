@@ -21,8 +21,9 @@ def post_detail(request, post_id):
                                                           'images': images, 
                                                           'comments': comments})
 
+@login_required(login_url='login')
 def account(request):
-    return HttpResponse(f"hi, {request.user.username}");
+    return render(request, 'blog_core/account.html');
 
 def sign_up(request):
     if request.method == 'GET':
@@ -42,6 +43,8 @@ def sign_up(request):
             return render(request, 'blog_core/register.html', {'form': form})
 
 def sign_in(request):
+    if request.user.is_authenticated:
+        return redirect('memes')
     if request.method == 'GET':
         form = LoginForm()
         return render(request, 'blog_core/login.html', {'form': form})

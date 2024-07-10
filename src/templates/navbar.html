@@ -1,0 +1,13 @@
+<div class="header">
+    <div>
+        <a href="{% url 'memes'%}">Memes page</a>
+    </div>
+    <div>
+        {%if request.user.is_authenticated%}
+            <a href="{% url 'account' %}">Account</a>
+        {%else%}
+            <a href="{% url 'login' %}">Log in</a>
+        <!-- or log in -->
+         {%endif%}
+    </div>
+</div>
