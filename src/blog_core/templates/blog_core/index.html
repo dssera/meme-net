@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {%block content%}
+    <br>
+    <div class="add-post">
+        <a href="{%url 'add_post'%}">Add memes</a>
+    </div>
     <div class="posts">
         {%for post in posts%}
-            <h5>{{post.title}}</h5>
+            <a href="{%url 'post_detail' post.id%}"><h5>{{post.title}}</h5></a>
             <p>{{post.body}}</p>
             <div class="images">
                 {%for img in post.images.all%}

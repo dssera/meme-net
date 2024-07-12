@@ -16,3 +16,6 @@
             multiple objects with blank values.
 
 
+
+3. CRUD for Posts and Images
+

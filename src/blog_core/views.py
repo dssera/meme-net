@@ -5,8 +5,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.http import HttpResponse
 
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, PostForm, ImageForm
 from .models import Post, Image, Comment
+
 
 def index(request):
     if request.method == 'GET':
@@ -20,6 +21,33 @@ def post_detail(request, post_id):
     return render(request, 'blog_core/post_detail.html', {'post': post, 
                                                           'images': images, 
                                                           'comments': comments})
+
+def add_post(request):
+    if request.method == 'POST':
+        post_form = PostForm(request.POST)
+        image_form = ImageForm(request.POST, request.FILES)
+        images = request.FILES.getlist('image')
+        if post_form.is_valid() and image_form.is_valid():
+            title = post_form.cleaned_data['title']
+            body = post_form.cleaned_data['body']
+            
+            new_post = Post.objects.create(author=request.user,
+                                           title=title, 
+                                           body=body)
+            for img in images:
+                Image.objects.create(post=new_post, 
+                                     image=img, 
+                                     author=request.user)
+            return redirect('memes')
+    post_form = PostForm()
+    image_form = ImageForm()
+    context = {'post_form': post_form, 'image_form': image_form}
+    return render(request, 'blog_core/add_post.html', context)
+        
+def delete_post(request):
+    pass
+def change_post(request):
+    pass
 
 @login_required(login_url='login')
 def account(request):

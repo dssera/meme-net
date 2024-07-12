@@ -1,0 +1,10 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<form enctype="multipart/form-data" action="{%url 'add_post'%}" method="POST">
+    {%csrf_token%}
+    {{post_form}}
+    <input required name="image" type="file" multiple class="form-control-file">
+    <input type="submit">
+</form>
+{%endblock%}
