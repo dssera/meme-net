@@ -11,6 +11,22 @@
             <div class="likes">
                 <p>likes: {{post.get_likes}}</p>
             </div>
+            {%if post.author == request.user%}
+            <div class="delete-post">
+                <form action="{%url 'delete_post' %}" method="POST">
+                    {%csrf_token%}
+                    <input type="submit" value="Delete" name="delete-post">
+                    <input type="hidden" name="pk" value="{{post.id}}">
+                </form>
+            </div>
+            <div class="change-post">
+                <form action="{%url 'change_post' %}" method="POST">
+                    {%csrf_token%}
+                    <input type="submit" value="Edit" name="change-post">
+                    <input type="hidden" name="pk" value="{{post.id}}">
+                </form>
+            </div>
+            {%endif%}
             <div class="comments">
                 {% for c in comments %}
                     <p><i>{{c.author.username}}</i></p>

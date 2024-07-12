@@ -1,0 +1,13 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+    <div class="change-post">
+        <form action="{%url 'change_post'%}" method="POST">
+            {% csrf_token %}
+            {{post_form.as_p}}
+            {{image_form.as_p}}
+            <input type="submit" value="Change" name="" id="">
+        </form>
+    </div>
+{%endblock%}

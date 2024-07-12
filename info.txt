@@ -18,4 +18,8 @@
 
 
 3. CRUD for Posts and Images
+4. in blog_core urls refactor routing:
+    posts/4/delete (Make)
+    posts/delete (Now. with id in post rq )
+5. how to prepolutate form??
 

@@ -7,7 +7,8 @@
     </div>
     <div class="posts">
         {%for post in posts%}
-            <a href="{%url 'post_detail' post.id%}"><h5>{{post.title}}</h5></a>
+            <h5>{{post.title}}</h5>
+            <a href="{%url 'post_detail' post.id%}"><p>to mem page</p></a>
             <p>{{post.body}}</p>
             <div class="images">
                 {%for img in post.images.all%}
@@ -17,6 +18,13 @@
             </div>
             <div class="likes">
                 <p>likes: {{post.get_likes}}</p>
+                
+
+                <form action="{% url 'memes'%}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="{% if user not in post.likes.all %}to like{%else%}unlike{%endif%}" id="">
+                    <input type="hidden" name="pk" value="{{post.id}}" id="">
+                </form>
             </div>
             <hr>
         {%endfor%}

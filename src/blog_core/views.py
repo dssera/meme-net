@@ -13,6 +13,14 @@ def index(request):
     if request.method == 'GET':
         posts = Post.objects.all()
         return render(request, 'blog_core/index.html', context= {'posts': posts})
+    if request.method == 'POST':
+        post = Post.objects.get(id=request.POST.get('pk'))
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        return redirect('memes')
+    
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -44,10 +52,34 @@ def add_post(request):
     context = {'post_form': post_form, 'image_form': image_form}
     return render(request, 'blog_core/add_post.html', context)
         
-def delete_post(request):
-    pass
+def delete_post(request: HttpResponse):
+    print('hoho')
+    if request.method == 'POST':
+        print('hoho')
+        post = get_object_or_404(Post, id=request.POST['pk'])
+        post.delete()
+        return redirect('memes')
+    
 def change_post(request):
-    pass
+    # need to prepolutate form
+    id=request.POST['pk']
+    post = Post.objects.get(id=id)
+
+    images = post.images.all()
+    initial_post_data = {
+            'title': 'Default Title',
+            'content': 'Default Content',
+        }
+    post_form = PostForm(initial=initial_post_data)
+    # AttributeError at /memes/posts/change/
+    # 'ellipsis' object has no attribute '_meta'
+    print(post_form.is_bound)
+    image_form = ImageForm()
+    if request.method == 'POST':
+        post_form = PostForm(request.POST)
+        image_form = ImageForm(request.POST, request.FILES)
+    return render(request, 'blog_core/change_post.html', {'post_form': post_form,
+                                                          'image_form': image_form})
 
 @login_required(login_url='login')
 def account(request):
