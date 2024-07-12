@@ -13,7 +13,7 @@
             <div class="images">
                 {%for img in post.images.all%}
                 <!-- в контекст ты не даешь посты для конерктного поста, поэтому нужно post.images.all -->
-                    <p>{{img.image}}</p>
+                    <img src="{{img.image.url}}" alt="Something went wrong:(">
                 {%endfor%}
             </div>
             <div class="likes">

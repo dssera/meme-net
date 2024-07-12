@@ -6,7 +6,7 @@
         <p>{{post.body}}</p>
         <div class="images">
             {%for img in images%}
-                <p>{{img.image}}</p>
+                <img src="{{img.image.url}}" alt="Something went wrong:(">
             {%endfor%}
             <div class="likes">
                 <p>likes: {{post.get_likes}}</p>

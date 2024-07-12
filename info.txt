@@ -23,3 +23,9 @@
     posts/delete (Now. with id in post rq )
 5. how to prepolutate form??
 
+6. add validation for images uplaoding
+6.1) resize imgs
+7. add css
+
+8. Comment system
+
